@@ -7,6 +7,7 @@ import { DepartmentCrudComponent } from './views/department-crud/department-crud
 import { EmployeeCreateComponent } from './components/employee/employee-create/employee-create.component';
 import { DepartmentCreateComponent } from './components/department/department-create/department-create.component';
 import { EmployeeEditComponent } from './components/employee/employee-edit/employee-edit.component';
+import { DepartmentEmployeeListComponent } from './components/department/department-employee-list/department-employee-list.component';
 
 const routes: Routes = [
   {
@@ -34,8 +35,12 @@ const routes: Routes = [
     component: DepartmentCreateComponent,
   },
   {
-    path: 'department/edit',
+    path: 'department/edit/:id',
     component: DepartmentEditComponent,
+  },
+  {
+    path: 'department/employees/:id',
+    component: DepartmentEmployeeListComponent,
   },
 ];
 

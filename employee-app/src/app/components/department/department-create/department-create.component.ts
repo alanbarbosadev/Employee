@@ -1,3 +1,5 @@
+import { LoaderService } from './../../../services/loader.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Department } from 'src/app/models/department.model';
@@ -13,15 +15,24 @@ export class DepartmentCreateComponent implements OnInit {
     name: '',
   };
 
+  departmentCreateForm: FormGroup = new FormGroup({
+    name: new FormControl(null, [Validators.required]),
+  });
+
   constructor(
     private router: Router,
-    private departmentService: DepartmentService
+    private departmentService: DepartmentService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {}
 
   createDepartment(): void {
-    this.departmentService.create(this.department).subscribe(() => {
+    const formData = this.departmentCreateForm.value;
+    let department: Department = {
+      name: formData.name,
+    };
+    this.departmentService.create(department).subscribe(() => {
       this.router.navigate(['/departments']);
     });
   }

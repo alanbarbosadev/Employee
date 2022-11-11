@@ -14,12 +14,11 @@ import * as moment from 'moment';
   styleUrls: ['./employee-edit.component.scss'],
 })
 export class EmployeeEditComponent implements OnInit {
+  id: string = this.route.snapshot.paramMap.get('id')!;
   departments: Department[] = [];
 
   employeeEditForm: FormGroup = new FormGroup({
-    id: new FormControl(this.route.snapshot.paramMap.get('id')!, [
-      Validators.required,
-    ]),
+    id: new FormControl(this.id, [Validators.required]),
     name: new FormControl(null, [Validators.required]),
     surname: new FormControl(null, [Validators.required]),
     salary: new FormControl(null, [Validators.required]),
@@ -36,11 +35,9 @@ export class EmployeeEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')!;
-
     this.departmentService.read().subscribe((departments) => {
       this.departments = departments;
-      this.employeeService.readById(id).subscribe((employee) => {
+      this.employeeService.readById(this.id).subscribe((employee) => {
         this.employeeEditForm.patchValue(employee);
         this.employeeEditForm
           .get('birthday')!

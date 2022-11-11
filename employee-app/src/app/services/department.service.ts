@@ -28,4 +28,9 @@ export class DepartmentService {
     const url = `${this.baseUrl}/${department.id}`;
     return this.http.put<Department>(url, department);
   }
+
+  delete(id: string): Observable<Department> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete<Department>(url);
+  }
 }

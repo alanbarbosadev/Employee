@@ -41,7 +41,6 @@ export class EmployeeCrudComponent implements OnInit {
       this.employeeService.read().subscribe((employees) => {
         this.employees = employees;
       });
-      //this.router.navigate(['/employees']);
     });
   }
 }

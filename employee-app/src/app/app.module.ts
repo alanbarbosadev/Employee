@@ -12,12 +12,12 @@ import { EmployeeCrudComponent } from './views/employee-crud/employee-crud.compo
 import { DepartmentCrudComponent } from './views/department-crud/department-crud.component';
 import { EmployeeCreateComponent } from './components/employee/employee-create/employee-create.component';
 import { DepartmentCreateComponent } from './components/department/department-create/department-create.component';
-//import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DepartmentEditComponent } from './components/department/department-edit/department-edit.component';
 import { EmployeeEditComponent } from './components/employee/employee-edit/employee-edit.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DepartmentEmployeeListComponent } from './components/department/department-employee-list/department-employee-list.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +31,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DepartmentCreateComponent,
     DepartmentEditComponent,
     EmployeeEditComponent,
+    DepartmentEmployeeListComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    //FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatProgressBarModule,

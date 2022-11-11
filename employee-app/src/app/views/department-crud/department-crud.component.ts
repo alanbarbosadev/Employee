@@ -2,6 +2,7 @@ import { DepartmentService } from './../../services/department.service';
 import { Department } from './../../models/department.model';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-department-crud',
@@ -10,20 +11,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepartmentCrudComponent implements OnInit {
   departments: Department[] = [];
-  department!: Department;
 
   constructor(
     private router: Router,
-    private departmentService: DepartmentService
+    private departmentService: DepartmentService,
+    public loaderService: LoaderService
   ) {}
   ngOnInit(): void {
     this.departmentService.read().subscribe((departments) => {
       this.departments = departments;
-      console.log(this.departments);
     });
   }
 
   navigateToCreateDepartment() {
     this.router.navigate(['department/create']);
+  }
+
+  delete(department: Department): void {
+    const id = department.id?.toString()!;
+    this.departmentService.delete(id).subscribe(() => {
+      this.departmentService.read().subscribe((departments) => {
+        this.departments = departments;
+      });
+    });
   }
 }
