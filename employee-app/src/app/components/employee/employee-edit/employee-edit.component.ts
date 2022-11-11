@@ -1,3 +1,4 @@
+import { LoaderService } from './../../../services/loader.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from 'src/app/models/department.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,19 +14,12 @@ import * as moment from 'moment';
   styleUrls: ['./employee-edit.component.scss'],
 })
 export class EmployeeEditComponent implements OnInit {
-  date: string = '';
-
   departments: Department[] = [];
 
-  employee: Employee = {
-    name: '',
-    surname: '',
-    salary: 0,
-    birthday: new Date(),
-    departmentId: 0,
-  };
-
   employeeEditForm: FormGroup = new FormGroup({
+    id: new FormControl(this.route.snapshot.paramMap.get('id')!, [
+      Validators.required,
+    ]),
     name: new FormControl(null, [Validators.required]),
     surname: new FormControl(null, [Validators.required]),
     salary: new FormControl(null, [Validators.required]),
@@ -33,42 +27,37 @@ export class EmployeeEditComponent implements OnInit {
     departmentId: new FormControl(null, [Validators.required]),
   });
 
-  currentDepartment: Department = {
-    name: '',
-  };
-
   constructor(
     private employeeService: EmployeeService,
     private departmentService: DepartmentService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
-    this.employeeService.readById(id).subscribe((employee) => {
-      this.employee = employee;
-      console.log(this.employee);
-      this.date = moment(this.employee.birthday).format('YYYY-MM-DD');
-    });
 
     this.departmentService.read().subscribe((departments) => {
       this.departments = departments;
-      this.currentDepartment = this.departments.find(
-        (x) => x.id == this.employee.departmentId
-      )!;
-      console.log(this.currentDepartment);
+      this.employeeService.readById(id).subscribe((employee) => {
+        this.employeeEditForm.patchValue(employee);
+        this.employeeEditForm
+          .get('birthday')!
+          .patchValue(moment(employee.birthday).format('YYYY-MM-DD'));
+      });
     });
   }
 
   updateEmployee(): void {
+    const formData = this.employeeEditForm.value;
     let employee: Employee = {
-      id: this.employee.id,
-      name: this.employeeEditForm.value.name,
-      surname: this.employeeEditForm.value.surname,
-      salary: this.employeeEditForm.value.salary,
-      birthday: this.employeeEditForm.value.birthday,
-      departmentId: +this.employeeEditForm.value.departmentId,
+      id: formData.id,
+      name: formData.name,
+      surname: formData.surname,
+      salary: formData.salary,
+      birthday: formData.birthday,
+      departmentId: formData.departmentId,
     };
     this.employeeService.update(employee).subscribe(() => {
       this.router.navigate(['/employees']);

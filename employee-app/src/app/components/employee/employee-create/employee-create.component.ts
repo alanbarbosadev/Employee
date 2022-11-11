@@ -1,8 +1,11 @@
+import { DepartmentService } from './../../../services/department.service';
 import { EmployeeService } from './../../../services/employee.service';
 import { Component, OnInit } from '@angular/core';
 import { Employee } from 'src/app/models/employee.model';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoaderService } from 'src/app/services/loader.service';
+import { Department } from 'src/app/models/department.model';
 
 @Component({
   selector: 'app-employee-create',
@@ -10,6 +13,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./employee-create.component.scss'],
 })
 export class EmployeeCreateComponent implements OnInit {
+  departments: Department[] = [];
+
   employeeCreateForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     surname: new FormControl(null, [Validators.required]),
@@ -20,18 +25,26 @@ export class EmployeeCreateComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private departmentService: DepartmentService,
+    public loaderService: LoaderService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.departmentService.read().subscribe((departments) => {
+      this.departments = departments;
+      console.log(this.departments);
+    });
+  }
 
   registerEmployee(): void {
+    const formData = this.employeeCreateForm.value;
     let employee: Employee = {
-      name: this.employeeCreateForm.value.name,
-      surname: this.employeeCreateForm.value.surname,
-      salary: this.employeeCreateForm.value.salary,
-      birthday: this.employeeCreateForm.value.birthday,
-      departmentId: +this.employeeCreateForm.value.departmentId,
+      name: formData.name,
+      surname: formData.surname,
+      salary: formData.salary,
+      birthday: formData.birthday,
+      departmentId: formData.departmentId,
     };
     this.employeeService.create(employee).subscribe(() => {
       this.router.navigate(['/employees']);

@@ -1,3 +1,6 @@
+<div class="loader-container" *ngIf="loaderService.isLoading | async">
+  <mat-progress-bar mode="query"></mat-progress-bar>
+</div>
 <div class="container">
   <div class="row mt-5">
     <div class="col align-self-center">
@@ -41,12 +44,12 @@
         <div class="mb-1">
           <label for="department" class="form-label">Department</label>
           <select class="form-select" formControlName="departmentId">
-            <option disabled selected>Choose a Department</option>
-            <option value="1">Marketing</option>
-            <option value="2">Accounting</option>
-            <option value="3">Finances</option>
-            <option value="4">Sales</option>
-            <option value="5">Human Resources</option>
+            <option
+              *ngFor="let department of departments"
+              value="{{ department.id }}"
+            >
+              {{ department.name }}
+            </option>
           </select>
         </div>
       </form>

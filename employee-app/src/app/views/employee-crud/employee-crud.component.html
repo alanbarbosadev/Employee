@@ -1,3 +1,6 @@
+<div class="loader-container" *ngIf="loaderService.isLoading | async">
+  <mat-progress-bar mode="query"></mat-progress-bar>
+</div>
 <div class="container-fluid">
   <div class="row m-3">
     <div class="col">
@@ -35,7 +38,11 @@
                 <a routerLink="/employee/edit/{{ employee.id }}"
                   ><button type="button" class="btn">Edit</button></a
                 >
-                <a><button type="button" class="btn">Delete</button></a>
+                <a
+                  ><button type="button" class="btn" (click)="delete(employee)">
+                    Delete
+                  </button></a
+                >
               </div>
             </td>
           </tr>

@@ -1,8 +1,11 @@
+import { LoaderService } from './../../services/loader.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EmployeeService } from './../../services/employee.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/models/employee.model';
 import * as moment from 'moment';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-employee-crud',
@@ -10,11 +13,12 @@ import * as moment from 'moment';
   styleUrls: ['./employee-crud.component.scss'],
 })
 export class EmployeeCrudComponent implements OnInit {
-  employees!: Employee[];
+  employees: Employee[] = [];
 
   constructor(
     private router: Router,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -31,10 +35,13 @@ export class EmployeeCrudComponent implements OnInit {
     return moment(date).format('DD-MM-YYYY');
   }
 
-  //delete(employee: Employee): void {
-  //const id = employee.id?.toString()!;
-  //this.employeeService.delete(id).subscribe(() => {
-  //this.router.navigate(['/employees']);
-  //});
-  //}
+  delete(employee: Employee): void {
+    const id = employee.id?.toString()!;
+    this.employeeService.delete(id).subscribe(() => {
+      this.employeeService.read().subscribe((employees) => {
+        this.employees = employees;
+      });
+      //this.router.navigate(['/employees']);
+    });
+  }
 }
