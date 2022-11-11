@@ -48,15 +48,8 @@ export class EmployeeEditComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.employeeService.readById(id).subscribe((employee) => {
       this.employee = employee;
-      console.log(employee);
-      this.date = moment(this.employee.birthday).format('YYYY-MM-DD');
-
-      //this.employeeEditForm.value.name = employee.name;
-      //this.employeeEditForm.value.surname = this.employee.surname;
-      //this.employeeEditForm.value.salary = this.employee.salary;
-      //this.employeeEditForm.value.birthday = this.date;
-      //this.employeeEditForm.value.departmentId = this.employee.departmentId;
       console.log(this.employee);
+      this.date = moment(this.employee.birthday).format('YYYY-MM-DD');
     });
 
     this.departmentService.read().subscribe((departments) => {
@@ -69,7 +62,15 @@ export class EmployeeEditComponent implements OnInit {
   }
 
   updateEmployee(): void {
-    this.employeeService.update(this.employee).subscribe(() => {
+    let employee: Employee = {
+      id: this.employee.id,
+      name: this.employeeEditForm.value.name,
+      surname: this.employeeEditForm.value.surname,
+      salary: this.employeeEditForm.value.salary,
+      birthday: this.employeeEditForm.value.birthday,
+      departmentId: +this.employeeEditForm.value.departmentId,
+    };
+    this.employeeService.update(employee).subscribe(() => {
       this.router.navigate(['/employees']);
     });
   }
