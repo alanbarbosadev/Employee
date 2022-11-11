@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row mt-5">
+    <!-- Second Column-->
+    <div class="col align-self-center">
+      <form [formGroup]="employeeEditForm">
+        <div class="mb-1">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+          />
+        </div>
+        <div class="mb-1">
+          <label for="surname" class="form-label">Surname</label>
+          <input
+            type="text"
+            class="form-control"
+            id="surname"
+            formControlName="surname"
+          />
+        </div>
+        <div class="mb-1">
+          <label for="salary" class="form-label">Salary</label>
+          <input
+            type="number"
+            class="form-control"
+            id="salary"
+            formControlName="salary"
+          />
+        </div>
+        <div class="mb-1">
+          <label for="birthday" class="form-label">Birthday</label>
+          <input
+            type="date"
+            class="form-control"
+            id="birthday"
+            name="birthday"
+            formControlName="birthday"
+          />
+        </div>
+        <div class="mb-1">
+          <label for="department" class="form-label">Department</label>
+          <select class="form-select" formControlName="departmentId">
+            <option selected disabled>Current Department</option>
+            <option value="1">Marketing</option>
+            <option value="2">Accounting</option>
+            <option value="3">Finances</option>
+            <option value="4">Sales</option>
+            <option value="5">Human Resources</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <!-- Second Column-->
+    <div class="col align-self-center">
+      <form>
+        <div class="mb-1">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            [value]="employee.name"
+            disabled
+          />
+        </div>
+        <div class="mb-1">
+          <label for="surname" class="form-label">Surname</label>
+          <input
+            type="text"
+            class="form-control"
+            id="surname"
+            [value]="employee.surname"
+            disabled
+          />
+        </div>
+        <div class="mb-1">
+          <label for="salary" class="form-label">Salary</label>
+          <input
+            type="number"
+            class="form-control"
+            id="salary"
+            [value]="employee.salary"
+            disabled
+          />
+        </div>
+        <div class="mb-1">
+          <label for="birthday" class="form-label">Birthday</label>
+          <input
+            type="date"
+            class="form-control"
+            id="birthday"
+            name="birthday"
+            [value]="date"
+            disabled
+          />
+        </div>
+        <div class="mb-1">
+          <label for="department" class="form-label">Department</label>
+          <select class="form-select" disabled>
+            <option selected>{{ currentDepartment.name }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col align-self-center">
+      <button
+        type="button"
+        class="btn primary-color"
+        (click)="updateEmployee()"
+      >
+        Update Employee
+      </button>
+      <button type="button" class="btn btn-danger" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

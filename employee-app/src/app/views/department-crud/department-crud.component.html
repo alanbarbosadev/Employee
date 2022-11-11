@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="row m-3">
+    <div class="col">
+      <button
+        type="button"
+        class="btn primary-color"
+        (click)="navigateToCreateDepartment()"
+      >
+        New Department
+      </button>
+    </div>
+  </div>
+  <div class="row m-5">
+    <div class="col align-self-center">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let department of departments">
+            <th scope="row" class="id">{{ department.id }}</th>
+            <td>{{ department.name }}</td>
+            <td>
+              <div>
+                <a routerLink="">
+                  <button type="button" class="btn">Show Employees</button>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
